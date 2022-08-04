@@ -10,7 +10,7 @@ class MedicalRobot(KnowledgeEngine):
     @Rule(OR(ReportModel(tos='TS'), ReportModel(tos='TE')), 
           OR(ReportModel(congestion='MA'), ReportModel(congestion='MV')),
           OR(ReportModel(fiebre='F'), ReportModel(fiebre='Fe'), ReportModel(fiebre='NF')))
-    def green_light(self):
+    def infeccion_resfriado_comun(self):
         print("IRC")
 
 engine = MedicalRobot()
