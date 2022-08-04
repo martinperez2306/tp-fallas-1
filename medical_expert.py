@@ -1,10 +1,9 @@
 from experta import *
-
+from diagnostic import *
 
 class ReportModel(Fact):
     """Info about the medical report."""
     pass
-
 
 class MedicalRobot(KnowledgeEngine):
     @Rule(OR(ReportModel(tos='TS'), ReportModel(tos='TE')), 
@@ -12,8 +11,5 @@ class MedicalRobot(KnowledgeEngine):
           OR(ReportModel(fiebre='F'), ReportModel(fiebre='Fe'), ReportModel(fiebre='NF')))
     def infeccion_resfriado_comun(self):
         print("IRC")
-
-engine = MedicalRobot()
-engine.reset()
-engine.declare(ReportModel(tos='TS'), ReportModel(congestion='MA'), ReportModel(fiebre='F'))
-engine.run()
+        global diagnostic
+        update_diagnostic("IRC")

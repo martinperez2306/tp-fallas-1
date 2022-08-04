@@ -19,8 +19,9 @@ def read_root():
 
 @app.post("/diagnostics")
 def read_item(report: Report):
+    new_diagnostic()
     engine = MedicalRobot()
     engine.reset()
     engine.declare(ReportModel(tos='TS'), ReportModel(congestion='MA'), ReportModel(fiebre='F'))
     engine.run()
-    return report
+    return diagnostic.result
