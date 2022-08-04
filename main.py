@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from typing import Union
+from pydantic import BaseModel
 
+class Report(BaseModel):
+    symptom: str
+    physical_exploration: str
+    disorders: str
+    study: str
 
 app = FastAPI()
 
@@ -10,6 +16,6 @@ def read_root():
     return "Pong"
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.post("/diagnostics")
+def read_item(report: Report):
+    return report
