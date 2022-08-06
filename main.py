@@ -83,4 +83,4 @@ def read_item(report: Report):
         engine.declare(*study_facts)
     
     engine.run()
-    return diagnostic.result
+    return {"result": diagnostic.result}
