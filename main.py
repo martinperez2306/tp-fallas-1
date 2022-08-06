@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from typing import Union
+from typing import List
 from pydantic import BaseModel
 from medical_expert import *
 
@@ -32,10 +33,10 @@ class Study(BaseModel):
         return StudyModel[self.value]
 
 class Report(BaseModel):
-    symptom: Symptom
-    physical_exploration: PhisicalExploration
-    disorder: Disorder
-    study: Study
+    symptoms: List[Symptom]
+    physical_explorations: List[PhisicalExploration]
+    disorders: List[Disorder]
+    studies: List[Study]
 
 
 app = FastAPI()
