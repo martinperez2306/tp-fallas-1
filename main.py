@@ -3,6 +3,15 @@ from typing import Union
 from typing import List
 from pydantic import BaseModel
 from medical_expert import *
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:3000",   
+]
 
 class Symptom:
     def __init__(self, value):
@@ -41,6 +50,17 @@ class Report(BaseModel):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+async def root():
+    return {"status": "UP", "description": "MIS - Medical Intelligent Server"}
 
 @app.get("/ping")
 def read_root():
