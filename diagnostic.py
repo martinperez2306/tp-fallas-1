@@ -2,11 +2,11 @@ class Diagnostic:
     def __init__(self, result):
         self.result = result
 
-diagnostic = Diagnostic("No concluyente")
+diagnostic = Diagnostic("INC")
 
 def new_diagnostic():
   global diagnostic
-  diagnostic.result = "No concluyente"
+  diagnostic.result = "INC"
 
 def update_diagnostic(result):
   global diagnostic

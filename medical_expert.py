@@ -8,54 +8,75 @@ class ReportModel(Fact):
 
 class SymptomModel(Enum):
     """Info about the symptom report."""
-    TS= 0
-    TE= 1
-    NT= 2
-    MA= 3
-    MV= 4 
-    P= 5
-    NC= 6
-    F= 7
-    FE= 8
-    NF= 9
-    DG= 10
-    NDG= 11
-    S= 12
-    NS= 13
-    O= 14
-    NO= 15
-    H= 16
-    NH= 17
-    D= 18
-    ND= 19
-    DT= 20
-    NDT= 21
-    AS= 22
-    NAS= 23
-    AN= 24
-    NAN= 25
-    DI= 26
-    NDI= 27
+    TS = 0
+    TE = 1
+    NT = 2
+    MA = 3
+    MV = 4 
+    P = 5
+    NC = 6
+    F = 7
+    FE = 8
+    NF = 9
+    DG = 10
+    NDG = 11
+    S = 12
+    NS = 13
+    O = 14
+    NO = 15
+    H = 16
+    NH = 17
+    D = 18
+    ND = 19
+    DT = 20
+    NDT = 21
+    AS = 22
+    NAS = 23
+    AN = 24
+    NAN = 25
+    DI = 26
+    NDI = 27
 
 class PhysicalExplorationModel(Enum):
     """Info about the physical exploration report."""
-    pass
+    PN = 0
+    PA = 1
+    CPA = 2
+    CPN = 3
+    FN = 4
+    FB = 5
+    FA = 6
+    GCN = 7
+    GCI = 8
+    RRN = 9
+    RRA = 10
 
 class DisorderModel(Enum):
     """Info about the disorder report."""
-    pass
+    A = 0
+    NA = 1
+    EP = 2
+    NEP = 3
+    BR = 4
+    NBR = 5
+    TU = 6
+    NTU = 7
+    DI = 8
+    NDI = 9
+    CA = 10
+    NCA = 11
 
 class StudyModel(Enum):
     """Info about the study report."""
-    PTN= 0
-    PTM= 1
-    HCA= 2
-    HCP= 3
-    HCN= 4
-    TTN= 5
-    TTM= 6
-    EPN= 7
-    EPA= 8
+    PTN = 0
+    PTM = 1
+    HCA = 2
+    HCP = 3
+    HCN = 4
+    TTN = 5
+    TTM = 6
+    EPN = 7
+    EPA = 8
 
 class MedicalRobot(KnowledgeEngine):
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
