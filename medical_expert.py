@@ -3,10 +3,6 @@ from experta import *
 from diagnostic import *
 from enum import Enum
 
-class ReportModel(Fact):
-    """Info about the medical report."""
-    pass
-
 ### >>>>>> SINTOMAS <<<<<<
 class SymptomModel(Enum):
     """Info about the symptom report."""
@@ -54,7 +50,7 @@ class PhysicalExplorationModel(Enum):
     GCN = 107  # ganglios cervicales normal
     GCI = 108  # ganglios cervicales inflamados
     RRN = 109  # ruidos respiratorios normales
-    RRA = 110 # ruidos respiratorios anormales
+    RRA = 110  # ruidos respiratorios anormales
 
 ### >>>>>> TRASTORNOS <<<<<<
 class DisorderModel(Enum):
@@ -67,10 +63,10 @@ class DisorderModel(Enum):
     NBR = 206  # sin bronquiectasias
     TU = 207   # tuberculosis
     NTU = 208  # sin tuberculosis
-    DI = 209   # diabetes
-    NDI = 210  # sin diabetes
-    CA = 211  # cardiopatia
-    NCA = 212 # sin cardiopatia
+    DB = 209   # diabetes
+    NDB = 210  # sin diabetes
+    CA = 211   # cardiopatia
+    NCA = 212  # sin cardiopatia
 
 ### >>>>>> ESTUDIOS <<<<<<
 class StudyModel(Enum):
@@ -89,12 +85,14 @@ class StudyModel(Enum):
 class DiagnosticModel(Enum):
     """Info about the study report."""
     IRC = "IRC"  # Infeccion Resfriado Comun
-    IF = "IF"  # Infeccion Faringitis
-    IR = "IR"  # Infeccion Rinosinusitis
-    IC = "IC"  # Infeccion COVID
-    IB = "IB"  # Infeccion B
+    IF = "IF"    # Infeccion Faringitis
+    IR = "IR"    # Infeccion Rinosinusitis
+    IC = "IC"    # Infeccion COVID
+    IB = "IB"    # Infeccion B
+    DER = "DER"  # Derivación neumonologo
 
 class MedicalRobot(KnowledgeEngine):
+    # REGLA 1
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)),
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
@@ -105,6 +103,7 @@ class MedicalRobot(KnowledgeEngine):
         global diagnostic
         update_diagnostic(DiagnosticModel.IRC)
 
+    # REGLA 2
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.NT)), 
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
@@ -116,8 +115,9 @@ class MedicalRobot(KnowledgeEngine):
     def infeccion_faringitis(self):
         global diagnostic
         update_diagnostic(DiagnosticModel.IF)
-
-    @Rule(OR(ReportModel(congestion='MA'), ReportModel(congestion='MV'), ReportModel(congestion='P')),
+    
+    # REGLA 3
+    @Rule(OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV), Fact(SymptomModel.P)),
           Fact(SymptomModel.F),
           OR(Fact(SymptomModel.MG), Fact(SymptomModel.NMG)),
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
@@ -126,6 +126,7 @@ class MedicalRobot(KnowledgeEngine):
         global diagnostic
         update_diagnostic(DiagnosticModel.IR)
 
+    # REGLA 4
     @Rule(Fact(SymptomModel.F),
           Fact(SymptomModel.MG),
           Fact(SymptomModel.D),
@@ -135,6 +136,7 @@ class MedicalRobot(KnowledgeEngine):
         global diagnostic
         update_diagnostic(DiagnosticModel.IC)
 
+    # REGLA 5
     @Rule(Fact(SymptomModel.F),
           Fact(SymptomModel.MG),
           Fact(SymptomModel.DI),
@@ -144,6 +146,7 @@ class MedicalRobot(KnowledgeEngine):
         global diagnostic
         update_diagnostic(DiagnosticModel.IC)
 
+    # REGLA 6
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
           OR(Fact(SymptomModel.H), Fact(SymptomModel.NH)),
           Fact(SymptomModel.D),
@@ -154,3 +157,16 @@ class MedicalRobot(KnowledgeEngine):
     def infeccion_bronquitis(self):
         global diagnostic
         update_diagnostic(DiagnosticModel.IB)
+
+    # REGLA 7
+    @Rule(OR(Fact(SymptomModel.TMA), Fact(DisorderModel.A), Fact(DisorderModel.EP), Fact(DisorderModel.BR)),
+          Fact(DisorderModel.TU),Fact(DisorderModel.DB),Fact(DisorderModel.CA))
+    def derivacion_neumonologo(self):
+        global diagnostic
+        update_diagnostic(DiagnosticModel.DER)
+
+    # REGLA 8
+    @Rule(OR(Fact(StudyModel.PTM), Fact(StudyModel.TTM)))
+    def derivacion_neumonologo(self):
+        global diagnostic
+        update_diagnostic(DiagnosticModel.DER)

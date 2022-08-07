@@ -6,9 +6,6 @@ from medical_expert import *
 from fastapi.middleware.cors import CORSMiddleware
 
 origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
     "http://localhost:8080",
     "http://localhost:3000",   
 ]
@@ -47,7 +44,6 @@ class Report(BaseModel):
     disorders: List[str]
     studies: List[str]
 
-
 app = FastAPI()
 
 app.add_middleware(
@@ -61,11 +57,6 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"status": "UP", "description": "MIS - Medical Intelligent Server"}
-
-@app.get("/ping")
-def read_root():
-    return "Pong"
-
 
 @app.post("/diagnostics")
 def read_item(report: Report):
