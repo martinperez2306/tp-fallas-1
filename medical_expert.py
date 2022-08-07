@@ -86,7 +86,7 @@ class StudyModel(Enum):
     EPA = 308  # espirometria anormal
 
 class MedicalRobot(KnowledgeEngine):
-    @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
+    @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)),
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
           Fact(SymptomModel.D),
@@ -97,13 +97,13 @@ class MedicalRobot(KnowledgeEngine):
         global diagnostic
         update_diagnostic("IRC")
 
-    @Rule(OR(ReportModel(tos='TS'), ReportModel(tos='NT')), 
-          OR(ReportModel(congestion='MA'), ReportModel(congestion='MV')),
-          OR(ReportModel(fiebre='F'), ReportModel(fiebre='Fe'), ReportModel(fiebre='NF')),
-          ReportModel(malestar_general='MG'),
-          ReportModel(odinofagia='O'),
-          ReportModel(ganglios_cervicales='GCI'),
-          OR(ReportModel(hisopado_covid='HCA'), ReportModel(hisopado_covid='HCN'))
+    @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.NT)), 
+          OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
+          OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
+          Fact(SymptomModel.MG),
+          Fact(SymptomModel.O),
+          Fact(PhysicalExplorationModel.GCI),
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
           )
     def infeccion_faringitis(self):
         print("IF")
@@ -111,41 +111,41 @@ class MedicalRobot(KnowledgeEngine):
         update_diagnostic("IF")
 
     @Rule(OR(ReportModel(congestion='MA'), ReportModel(congestion='MV'), ReportModel(congestion='P')),
-          ReportModel(fiebre='F'),
-          OR(ReportModel(malestar_general='MG'), ReportModel(malestar_general='NMG')),
-          OR(ReportModel(hisopado_covid='HCA'), ReportModel(hisopado_covid='HCN'))
+          Fact(SymptomModel.F),
+          OR(Fact(SymptomModel.MG), Fact(SymptomModel.NMG)),
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
           )
     def infeccion_rinusinusitis(self):
         print("IR")
         global diagnostic
         update_diagnostic("IR")
 
-    @Rule(ReportModel(fiebre='F'),
-          ReportModel(malestar_general='MG'),
-          ReportModel(disnea='D'),
-          OR(ReportModel(hisopado_covid='HCA'), ReportModel(hisopado_covid='HCP'))
+    @Rule(Fact(SymptomModel.F),
+          Fact(SymptomModel.MG),
+          Fact(SymptomModel.D),
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso1(self):
         print("IC")
         global diagnostic
         update_diagnostic("IC")
 
-    @Rule(ReportModel(fiebre='F'),
-          ReportModel(malestar_general='MG'),
-          ReportModel(disgeusia='DI'),
-          OR(ReportModel(hisopado_covid='HCA'), ReportModel(hisopado_covid='HCP')),
+    @Rule(Fact(SymptomModel.F),
+          Fact(SymptomModel.MG),
+          Fact(SymptomModel.DI),
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso2(self):
         print("IC")
         global diagnostic
         update_diagnostic("IC")
 
-    @Rule(OR(ReportModel(tos='TS'), ReportModel(tos='TE')), 
+    @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
           OR(ReportModel(hemoptitis='H'), ReportModel(hemoptitis='NH')),
-          ReportModel(disnea='D'),
-          ReportModel(dolor_toracico='DT'),
-          ReportModel(astenia='AS'),
-          OR(ReportModel(hisopado_covid='HCA'), ReportModel(hisopado_covid='HCP'))
+          Fact(SymptomModel.D),
+          Fact(SymptomModel.DT),
+          Fact(SymptomModel.AS),
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_bronquitis(self):
         print("IB")
