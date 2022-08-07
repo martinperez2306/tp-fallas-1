@@ -88,8 +88,7 @@ class DiagnosticModel(Enum):
     IF = "IF"    # Infeccion Faringitis
     IR = "IR"    # Infeccion Rinosinusitis
     IC = "IC"    # Infeccion COVID
-    IB = "IB"    # Infeccion B
-    DER = "DER"  # Derivación neumonologo
+    IB = "IB"    # Infeccion Bronquitis
 
 class MedicalRobot(KnowledgeEngine):
     # REGLA 1
@@ -121,8 +120,8 @@ class MedicalRobot(KnowledgeEngine):
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV), Fact(SymptomModel.P)),
           Fact(SymptomModel.F),
           OR(Fact(SymptomModel.MG), Fact(SymptomModel.NMG)),
-          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
-          )
+          OR(Fact(Fact(StudyModel.HCN))
+          ))
     def infeccion_rinusinusitis(self):
         global diagnostic
         update_diagnostic(DiagnosticModel.IR)
@@ -131,7 +130,7 @@ class MedicalRobot(KnowledgeEngine):
     @Rule(Fact(SymptomModel.F),
           Fact(SymptomModel.MG),
           Fact(SymptomModel.D),
-          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
+          OR(Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso1(self):
         global diagnostic
@@ -141,7 +140,7 @@ class MedicalRobot(KnowledgeEngine):
     @Rule(Fact(SymptomModel.F),
           Fact(SymptomModel.MG),
           Fact(SymptomModel.DI),
-          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
+          OR(Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso2(self):
         global diagnostic
@@ -153,21 +152,8 @@ class MedicalRobot(KnowledgeEngine):
           Fact(SymptomModel.D),
           Fact(SymptomModel.DT),
           Fact(SymptomModel.AS),
-          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
+          OR(Fact(StudyModel.HCP))
           )
     def infeccion_bronquitis(self):
         global diagnostic
         update_diagnostic(DiagnosticModel.IB)
-
-    # REGLA 7
-    @Rule(OR(Fact(SymptomModel.TMA), Fact(DisorderModel.A), Fact(DisorderModel.EP), Fact(DisorderModel.BR)),
-          Fact(DisorderModel.TU),Fact(DisorderModel.DB),Fact(DisorderModel.CA))
-    def derivacion_neumonologo(self):
-        global diagnostic
-        update_diagnostic(DiagnosticModel.DER)
-
-    # REGLA 8
-    @Rule(OR(Fact(StudyModel.PTM), Fact(StudyModel.TTM)))
-    def derivacion_neumonologo(self):
-        global diagnostic
-        update_diagnostic(DiagnosticModel.DER)
