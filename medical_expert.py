@@ -1,3 +1,4 @@
+from ctypes.wintypes import MSG
 from experta import *
 from diagnostic import *
 from enum import Enum
@@ -6,83 +7,89 @@ class ReportModel(Fact):
     """Info about the medical report."""
     pass
 
+### >>>>>> SINTOMAS <<<<<<
 class SymptomModel(Enum):
     """Info about the symptom report."""
-    TS = 0
-    TE = 1
-    NT = 2
-    MA = 3
-    MV = 4 
-    P = 5
-    NC = 6
-    F = 7
-    FE = 8
-    NF = 9
-    DG = 10
-    NDG = 11
-    S = 12
-    NS = 13
-    O = 14
-    NO = 15
-    H = 16
-    NH = 17
-    D = 18
-    ND = 19
-    DT = 20
-    NDT = 21
-    AS = 22
-    NAS = 23
-    AN = 24
-    NAN = 25
-    DI = 26
-    NDI = 27
+    TS = 0   # tos seca
+    TE = 1   # tos expectoracion
+    NT = 2   # sin tos
+    MA = 3   # moco acuoso
+    MV = 4   # moco verde
+    P = 5    # pus
+    NC = 6   # sin congestion
+    NF = 9   # sin fiebre
+    FE = 8   # febricula
+    F = 9    # fiebre
+    MG = 10  # malestar general
+    NMG = 11 # sin malestar general
+    S = 12   # sibilancias
+    NS = 13  # sin sibilancias
+    O = 14   # odinofagia
+    NO = 15  # sin odinofagia
+    H = 16   # hemoptisis
+    NH = 17  # sin hemoptisis
+    D = 18   # disnea
+    ND = 19  # sin disnea
+    DT = 20  # dolor toraxico
+    NDT = 21 # sin dolor toraxico
+    AS = 22  # astenia
+    NAS = 23 # sin astenia
+    AN = 24  # anosmia
+    NAN = 25 # sin anosmia
+    DI = 26  # disgeusia
+    NDI = 27 # sin disgeusia
+    TMA = 28 # tiempo mayor 2 semanas
+    TME = 29 # tiempo menor a 2 semanas
 
+### >>>>>> EXPLORACION <<<<<<
 class PhysicalExplorationModel(Enum):
     """Info about the physical exploration report."""
-    PN = 0
-    PA = 1
-    CPA = 2
-    CPN = 3
-    FN = 4
-    FB = 5
-    FA = 6
-    GCN = 7
-    GCI = 8
-    RRN = 9
-    RRA = 10
+    PN = 0   # pulsioximetría normal
+    PA = 1   # pulsioximetría anormal
+    CPA = 2  # coloracion piel azulada
+    CPN = 3  # coloracion piel normal
+    FN = 4   # frecuencia respiratoria normal
+    FB = 5   # frecuencia respiratoria baja
+    FA = 6   # frecuencia respiratoria alta
+    GCN = 7  # ganglios cervicales normal
+    GCI = 8  # ganglios cervicales inflamados
+    RRN = 9  # ruidos respiratorios normales
+    RRA = 10 # ruidos respiratorios anormales
 
+### >>>>>> TRASTORNOS <<<<<<
 class DisorderModel(Enum):
     """Info about the disorder report."""
-    A = 0
-    NA = 1
-    EP = 2
-    NEP = 3
-    BR = 4
-    NBR = 5
-    TU = 6
-    NTU = 7
-    DI = 8
-    NDI = 9
-    CA = 10
-    NCA = 11
+    A = 0    # asma
+    NA = 1   # sin asma
+    EP = 2   # epoc
+    NEP = 3  # sin epoc
+    BR = 4   # bronquiectasias
+    NBR = 5  # sin bronquiectasias
+    TU = 6   # tuberculosis
+    NTU = 7  # sin tuberculosis
+    DI = 8   # diabetes
+    NDI = 9  # sin diabetes
+    CA = 10  # cardiopatia
+    NCA = 11 # sin cardiopatia
 
+### >>>>>> ESTUDIOS <<<<<<
 class StudyModel(Enum):
     """Info about the study report."""
-    PTN = 0
-    PTM = 1
-    HCA = 2
-    HCP = 3
-    HCN = 4
-    TTN = 5
-    TTM = 6
-    EPN = 7
-    EPA = 8
+    PTN = 0  # placa torax normal
+    PTM = 1  # placa torax manchas
+    HCA = 2  # hisopado ausente
+    HCP = 3  # hisopado positivo
+    HCN = 4  # hisopado negativo
+    TTN = 5  # tomografia torax normal
+    TTM = 6  # tomografia torax manchas
+    EPN = 7  # espirometria normal
+    EPA = 8  # espirometria anormal
 
 class MedicalRobot(KnowledgeEngine):
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
-          Fact(SymptomModel.DG),
+          Fact(SymptomModel.D),
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
           )
     def infeccion_resfriado_comun(self):
