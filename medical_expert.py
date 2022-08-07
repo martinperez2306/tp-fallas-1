@@ -117,7 +117,8 @@ class MedicalRobot(KnowledgeEngine):
         update_diagnostic(DiagnosticModel.IF)
     
     # REGLA 3
-    @Rule(OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV), Fact(SymptomModel.P)),
+    @Rule(Fact(SymptomModel.NT),
+          OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV), Fact(SymptomModel.P)),
           Fact(SymptomModel.F),
           OR(Fact(SymptomModel.MG), Fact(SymptomModel.NMG)),
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
