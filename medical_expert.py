@@ -98,7 +98,7 @@ class MedicalRobot(KnowledgeEngine):
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
           Fact(SymptomModel.MG),
           Fact(SymptomModel.NO),
-          OR(Fact(StudyModel.HCN), Fact(StudyModel.HCA)),
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN)),
           Fact(SymptomModel.TME)
           )
     def infeccion_resfriado_comun(self):
@@ -113,7 +113,7 @@ class MedicalRobot(KnowledgeEngine):
           Fact(SymptomModel.O),
           Fact(PhysicalExplorationModel.GCI),
           Fact(SymptomModel.TME),
-          OR(Fact(StudyModel.HCN), Fact(StudyModel.HCA))
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN)),
           )
     def infeccion_faringitis(self):
         global diagnostic
@@ -121,13 +121,13 @@ class MedicalRobot(KnowledgeEngine):
     
     # REGLA 3
     @Rule(Fact(SymptomModel.TS),
-          OR(Fact(SymptomModel.P)),
+          Fact(SymptomModel.P),
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
           OR(Fact(SymptomModel.MG), Fact(SymptomModel.NMG)),
           Fact(SymptomModel.NO),
-          OR(Fact(StudyModel.HCN),  Fact(StudyModel.HCA),
-          Fact(SymptomModel.TME)
-          ))
+          Fact(SymptomModel.TME),
+          OR(Fact(StudyModel.HCA),  Fact(StudyModel.HCN)),
+          )
     def infeccion_rinusinusitis(self):
         global diagnostic
         update_diagnostic(DiagnosticModel.IR)
@@ -137,7 +137,7 @@ class MedicalRobot(KnowledgeEngine):
           Fact(SymptomModel.NO),
           Fact(SymptomModel.MG),
           Fact(SymptomModel.D),
-          OR(Fact(StudyModel.HCP))
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso1(self):
         global diagnostic
@@ -148,7 +148,7 @@ class MedicalRobot(KnowledgeEngine):
           Fact(SymptomModel.MG),
           Fact(SymptomModel.NO),
           Fact(SymptomModel.DI),
-          OR(Fact(StudyModel.HCP))
+          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso2(self):
         global diagnostic
