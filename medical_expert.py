@@ -98,7 +98,7 @@ class MedicalRobot(KnowledgeEngine):
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)),
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
-          Fact(SymptomModel.D),
+          Fact(SymptomModel.MG),
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
           )
     def infeccion_resfriado_comun(self):
