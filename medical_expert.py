@@ -44,46 +44,46 @@ class SymptomModel(Enum):
 ### >>>>>> EXPLORACION <<<<<<
 class PhysicalExplorationModel(Enum):
     """Info about the physical exploration report."""
-    PN = 0   # pulsioximetría normal
-    PA = 1   # pulsioximetría anormal
-    CPA = 2  # coloracion piel azulada
-    CPN = 3  # coloracion piel normal
-    FN = 4   # frecuencia respiratoria normal
-    FB = 5   # frecuencia respiratoria baja
-    FA = 6   # frecuencia respiratoria alta
-    GCN = 7  # ganglios cervicales normal
-    GCI = 8  # ganglios cervicales inflamados
-    RRN = 9  # ruidos respiratorios normales
-    RRA = 10 # ruidos respiratorios anormales
+    PN = 100   # pulsioximetría normal
+    PA = 101   # pulsioximetría anormal
+    CPA = 102  # coloracion piel azulada
+    CPN = 103  # coloracion piel normal
+    FN = 104   # frecuencia respiratoria normal
+    FB = 105   # frecuencia respiratoria baja
+    FA = 106   # frecuencia respiratoria alta
+    GCN = 107  # ganglios cervicales normal
+    GCI = 108  # ganglios cervicales inflamados
+    RRN = 109  # ruidos respiratorios normales
+    RRA = 110 # ruidos respiratorios anormales
 
 ### >>>>>> TRASTORNOS <<<<<<
 class DisorderModel(Enum):
     """Info about the disorder report."""
-    A = 0    # asma
-    NA = 1   # sin asma
-    EP = 2   # epoc
-    NEP = 3  # sin epoc
-    BR = 4   # bronquiectasias
-    NBR = 5  # sin bronquiectasias
-    TU = 6   # tuberculosis
-    NTU = 7  # sin tuberculosis
-    DI = 8   # diabetes
-    NDI = 9  # sin diabetes
-    CA = 10  # cardiopatia
-    NCA = 11 # sin cardiopatia
+    A = 201    # asma
+    NA = 202   # sin asma
+    EP = 203   # epoc
+    NEP = 204  # sin epoc
+    BR = 205   # bronquiectasias
+    NBR = 206  # sin bronquiectasias
+    TU = 207   # tuberculosis
+    NTU = 208  # sin tuberculosis
+    DI = 209   # diabetes
+    NDI = 210  # sin diabetes
+    CA = 211  # cardiopatia
+    NCA = 212 # sin cardiopatia
 
 ### >>>>>> ESTUDIOS <<<<<<
 class StudyModel(Enum):
     """Info about the study report."""
-    PTN = 0  # placa torax normal
-    PTM = 1  # placa torax manchas
-    HCA = 2  # hisopado ausente
-    HCP = 3  # hisopado positivo
-    HCN = 4  # hisopado negativo
-    TTN = 5  # tomografia torax normal
-    TTM = 6  # tomografia torax manchas
-    EPN = 7  # espirometria normal
-    EPA = 8  # espirometria anormal
+    PTN = 300  # placa torax normal
+    PTM = 301  # placa torax manchas
+    HCA = 302  # hisopado ausente
+    HCP = 303  # hisopado positivo
+    HCN = 304  # hisopado negativo
+    TTN = 305  # tomografia torax normal
+    TTM = 306  # tomografia torax manchas
+    EPN = 307  # espirometria normal
+    EPA = 308  # espirometria anormal
 
 class MedicalRobot(KnowledgeEngine):
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
