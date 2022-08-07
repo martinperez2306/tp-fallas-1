@@ -17,7 +17,7 @@ class SymptomModel(Enum):
     MV = 4   # moco verde
     P = 5    # pus
     NC = 6   # sin congestion
-    NF = 9   # sin fiebre
+    NF = 7   # sin fiebre
     FE = 8   # febricula
     F = 9    # fiebre
     MG = 10  # malestar general
