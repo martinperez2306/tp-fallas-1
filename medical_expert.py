@@ -85,6 +85,15 @@ class StudyModel(Enum):
     EPN = 307  # espirometria normal
     EPA = 308  # espirometria anormal
 
+### >>>>>> DIAGNOSTICO <<<<<<
+class DiagnosticModel(Enum):
+    """Info about the study report."""
+    IRC = "IRC"  # Infeccion Resfriado Comun
+    IF = "IF"  # Infeccion Faringitis
+    IR = "IR"  # Infeccion Rinosinusitis
+    IC = "IC"  # Infeccion COVID
+    IB = "IB"  # Infeccion B
+
 class MedicalRobot(KnowledgeEngine):
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)),
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
@@ -93,9 +102,8 @@ class MedicalRobot(KnowledgeEngine):
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
           )
     def infeccion_resfriado_comun(self):
-        print("IRC")
         global diagnostic
-        update_diagnostic("IRC")
+        update_diagnostic(DiagnosticModel.IRC)
 
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.NT)), 
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
@@ -106,9 +114,8 @@ class MedicalRobot(KnowledgeEngine):
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
           )
     def infeccion_faringitis(self):
-        print("IF")
         global diagnostic
-        update_diagnostic("IF")
+        update_diagnostic(DiagnosticModel.IF)
 
     @Rule(OR(ReportModel(congestion='MA'), ReportModel(congestion='MV'), ReportModel(congestion='P')),
           Fact(SymptomModel.F),
@@ -116,9 +123,8 @@ class MedicalRobot(KnowledgeEngine):
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
           )
     def infeccion_rinusinusitis(self):
-        print("IR")
         global diagnostic
-        update_diagnostic("IR")
+        update_diagnostic(DiagnosticModel.IR)
 
     @Rule(Fact(SymptomModel.F),
           Fact(SymptomModel.MG),
@@ -126,9 +132,8 @@ class MedicalRobot(KnowledgeEngine):
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso1(self):
-        print("IC")
         global diagnostic
-        update_diagnostic("IC")
+        update_diagnostic(DiagnosticModel.IC)
 
     @Rule(Fact(SymptomModel.F),
           Fact(SymptomModel.MG),
@@ -136,18 +141,16 @@ class MedicalRobot(KnowledgeEngine):
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_covid_caso2(self):
-        print("IC")
         global diagnostic
-        update_diagnostic("IC")
+        update_diagnostic(DiagnosticModel.IC)
 
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
-          OR(ReportModel(hemoptitis='H'), ReportModel(hemoptitis='NH')),
+          OR(Fact(SymptomModel.H), Fact(SymptomModel.NH)),
           Fact(SymptomModel.D),
           Fact(SymptomModel.DT),
           Fact(SymptomModel.AS),
           OR(Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_bronquitis(self):
-        print("IB")
         global diagnostic
-        update_diagnostic("IB")
+        update_diagnostic(DiagnosticModel.IB)
