@@ -91,12 +91,15 @@ class DiagnosticModel(Enum):
     IB = "IB"    # Infeccion Bronquitis
 
 class MedicalRobot(KnowledgeEngine):
+    
     # REGLA 1
     @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)),
           OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV)),
           OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
           Fact(SymptomModel.MG),
-          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
+          Fact(SymptomModel.NO),
+          OR(Fact(StudyModel.HCN), Fact(StudyModel.HCA)),
+          Fact(SymptomModel.TME)
           )
     def infeccion_resfriado_comun(self):
         global diagnostic
@@ -109,18 +112,21 @@ class MedicalRobot(KnowledgeEngine):
           Fact(SymptomModel.MG),
           Fact(SymptomModel.O),
           Fact(PhysicalExplorationModel.GCI),
-          OR(Fact(StudyModel.HCA), Fact(StudyModel.HCN))
+          Fact(SymptomModel.TME),
+          OR(Fact(StudyModel.HCN), Fact(StudyModel.HCA))
           )
     def infeccion_faringitis(self):
         global diagnostic
         update_diagnostic(DiagnosticModel.IF)
     
     # REGLA 3
-    @Rule(Fact(SymptomModel.NT),
-          OR(Fact(SymptomModel.MA), Fact(SymptomModel.MV), Fact(SymptomModel.P)),
-          Fact(SymptomModel.F),
+    @Rule(Fact(SymptomModel.TS),
+          OR(Fact(SymptomModel.P)),
+          OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
           OR(Fact(SymptomModel.MG), Fact(SymptomModel.NMG)),
-          OR(Fact(Fact(StudyModel.HCN))
+          Fact(SymptomModel.NO),
+          OR(Fact(StudyModel.HCN),  Fact(StudyModel.HCA),
+          Fact(SymptomModel.TME)
           ))
     def infeccion_rinusinusitis(self):
         global diagnostic
@@ -128,6 +134,7 @@ class MedicalRobot(KnowledgeEngine):
 
     # REGLA 4
     @Rule(Fact(SymptomModel.F),
+          Fact(SymptomModel.NO),
           Fact(SymptomModel.MG),
           Fact(SymptomModel.D),
           OR(Fact(StudyModel.HCP))
@@ -139,6 +146,7 @@ class MedicalRobot(KnowledgeEngine):
     # REGLA 5
     @Rule(Fact(SymptomModel.F),
           Fact(SymptomModel.MG),
+          Fact(SymptomModel.NO),
           Fact(SymptomModel.DI),
           OR(Fact(StudyModel.HCP))
           )
@@ -147,12 +155,14 @@ class MedicalRobot(KnowledgeEngine):
         update_diagnostic(DiagnosticModel.IC)
 
     # REGLA 6
-    @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)), 
-          OR(Fact(SymptomModel.H), Fact(SymptomModel.NH)),
+    @Rule(OR(Fact(SymptomModel.TS), Fact(SymptomModel.TE)),
+          OR(Fact(SymptomModel.F), Fact(SymptomModel.FE), Fact(SymptomModel.NF)),
+          OR(Fact(SymptomModel.MG), Fact(SymptomModel.NMG)),
+          Fact(SymptomModel.NO),
           Fact(SymptomModel.D),
           Fact(SymptomModel.DT),
           Fact(SymptomModel.AS),
-          OR(Fact(StudyModel.HCP))
+          OR(Fact(StudyModel.HCN),  Fact(StudyModel.HCA), Fact(StudyModel.HCP))
           )
     def infeccion_bronquitis(self):
         global diagnostic
